@@ -1,0 +1,23 @@
+{
+  "name": "backend-paw",
+  "version": "1.0.0",
+  "description": "backend for financial planning",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/heintzz/backend-paw.git"
+  },
+  "author": "kelompok 2",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/heintzz/backend-paw/issues"
+  },
+  "homepage": "https://github.com/heintzz/backend-paw#readme",
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2"
+  }
+}
