@@ -18,7 +18,11 @@ Anggota Kelompok:
      npm install
     ```
 3. Ensure you configure the local environment variable by referencing the .env.example file (**optional** for now)
-4. Start the application  
+   ```shell
+   PORT=<isi dengan port yang diinginkan>
+   // ke depannya akan ada env untuk menyimpan key dari mongoDB dan lainnya
+   ```
+5. Start the application  
    ```shell
    npm run dev
    ```
