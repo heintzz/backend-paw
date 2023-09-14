@@ -14,6 +14,7 @@ Anggota Kelompok:
     ```
 2. Set up the required software packages
     ```shell
+     cd backend-paw
      npm install
     ```
 3. Ensure you configure the local environment variable by referencing the .env.example file (**optional** for now)
