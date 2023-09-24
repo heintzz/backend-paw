@@ -9,10 +9,10 @@ const port = process.env.PORT || 3000;
 connectToDB();
 
 app.use(morgan(":method :url :status - :response-time ms"));
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
+app.use("/auth", require("./routes/auth"));
 
 mongoose.connection.once("open", () => {
   app.listen(port, () => {
