@@ -1,40 +1,15 @@
 // Note: need integration with DB
 // const Income = require('../models/income');
 
-// Create monhtly income record
-const createMonthlyIncome = async (req, res) => {
-  try {
-    const { incomeName, incomeAmount } = req.body;
-    const incomeMonthly = true;
-    const userId = req.id; // Get the user ID from the authenticated user
-
-    // Note : need integration with DB
-    // const income = new Income({
-    //   user: userId,
-    //   incomeName,
-    //   incomeAmount,
-    //   incomeMonthly
-    // });
-
-    // await income.save();
-
-    // res.json(income);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Server Error');
-  }
-};
-
 // Create income record
 const createIncome = async (req, res) => {
     try {
-      const { incomeName, incomeAmount } = req.body;
-      const incomeMonthly = false;
+      const { incomeName, incomeAmount, incomeMonthly } = req.body;
       const userId = req.id; // Get the user ID from the authenticated user
   
       // Note : need integration with DB
       // const income = new Income({
-      //   user: userId,
+      //   userId,
       //   incomeName,
       //   incomeAmount,
       //   incomeMonthly
@@ -42,7 +17,7 @@ const createIncome = async (req, res) => {
   
       // await income.save();
   
-      // res.json(income);
+      // res.status(201).json({ success: true, data: income });
     } catch (err) {
       console.error(err.message);
       res.status(500).send('Server Error');
@@ -55,13 +30,13 @@ const getIncome = async (req, res) => {
         const userId = req.id; // Get the user ID from the authenticated user
         
         // Note: need integration with DB
-        // const income = await Income.find({ user: userId });
+        // const income = await Income.find({userId});
     
         // if (!income) {
         //     return res.status(404).json({ msg: 'Income record not found' });
         // }
     
-        // res.json(income);
+        // res.status(200).json({ success: true, data: income });
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server Error');
@@ -71,11 +46,11 @@ const getIncome = async (req, res) => {
 // Update income record
 const updateIncome = async (req, res) => {
     try {
-        const userId = req.id; // Get the user ID from the authenticated user
+        const incomeId = req.params.id;
         const { incomeName, incomeAmount } = req.body;
 
         // Note: need integration with DB
-        // const income = await Income.findOne({ user: userId, incomeName: incomeName, incomeAmount:incomeAmount});
+        // const income = await Income.findOne({_id: incomeId});
 
         // if (!income) {
         //     return res.status(404).json({ msg: 'Income record not found' });
@@ -86,7 +61,7 @@ const updateIncome = async (req, res) => {
 
         // await income.save();
 
-        // res.json(income);
+        // res.status(200).json({ success: true, data: income });
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server Error');
@@ -96,10 +71,10 @@ const updateIncome = async (req, res) => {
 // Delete income record
 const deleteIncome = async (req, res) => {
     try {
-        const userId = req.id; // Get the user ID from the authenticated user
+        const incomeId = req.params.id; 
 
         // Note: Need integration with DB
-        // const income = await Income.findOne({ user: userId, incomeName: incomeName, incomeAmount:incomeAmount});
+        // const income = await Income.findOne({_id: incomeId});
 
         // if (!income) {
         // return res.status(404).json({ msg: 'Income record not found' });
@@ -107,7 +82,7 @@ const deleteIncome = async (req, res) => {
 
         // await income.remove();
 
-        // res.json({ msg: 'Income record removed' });
+        // res.status(200).json({ success: true, data: 'Expense record removed' });
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server Error');
@@ -115,7 +90,6 @@ const deleteIncome = async (req, res) => {
 };
 
 module.exports = {
-    createMonthlyIncome,
     createIncome,
     getIncome,
     updateIncome,

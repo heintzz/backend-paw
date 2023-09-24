@@ -3,9 +3,6 @@ const router = express.Router();
 const verify = require('../middleware/verifyJWT');
 const incomeController = require('../controllers/income.controller');
 
-// Create monthly income record
-router.post('/monthly/', verify, incomeController.createMonthlyIncome);
-
 // Create income record
 router.post('/', verify, incomeController.createIncome);
 
