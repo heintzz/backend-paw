@@ -42,11 +42,11 @@ const getExpense = async (req, res) => {
 // Update expense record
 const updateExpense = async (req, res) => {
   try {
-    const incomeId = req.params.id; 
+    const expenseId = req.params.id; 
     const { expenseName, expenseAmount, expenseCategory} = req.body;
 
     // Note: need integration with DB
-    // const expense = await Expense.findOne({ _id: incomeId});
+    // const expense = await Expense.findOne({ _id: expenseId});
 
     // if (!expense) {
     //   return res.status(404).json({ msg: 'Expense record not found' });
@@ -68,10 +68,10 @@ const updateExpense = async (req, res) => {
 // Delete expense record
 const deleteExpense = async (req, res) => {
   try {
-    const incomeId = req.params.id; 
+    const expenseId = req.params.id; 
 
     // Note: need integration with DB
-    // const expense = await Expense.findOne({ _id: incomeId});
+    // const expense = await Expense.findOne({ _id: expenseId});
 
     // if (!expense) {
     //   return res.status(404).json({ msg: 'Expense record not found' });
