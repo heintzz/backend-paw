@@ -1,35 +1,10 @@
 // Note: need integration with DB
 // const Expense = require('../models/expense');
 
-// Create monthly expense record
-const createMonthlyExpense = async (req, res) => {
-  try {
-    const { expenseName, expenseAmount } = req.body;
-    const expenseMonthly = true;
-    const userId = req.id;
-    
-    // Note: need integration with DB
-    // const expense = new Expense({
-    //     userId,
-    //     expenseName,
-    //     expenseAmount,
-    //     expenseMonthly
-    // });
-
-    // await expense.save();
-
-    // res.json(expense);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Server Error');
-  }
-};
-
 // Create expense record
 const createExpense = async (req, res) => {
     try {
-        const { expenseName, expenseAmount } = req.body;
-        const expenseMonthly = false;
+        const { expenseName, expenseAmount, expenseCategory, expenseMonthly} = req.body;
         const userId = req.id;
         
         // Note: need integration with DB
@@ -37,12 +12,13 @@ const createExpense = async (req, res) => {
         //     userId,
         //     expenseName,
         //     expenseAmount,
+        //     expenseCategory,
         //     expenseMonthly
         // });
     
         // await expense.save();
     
-        // res.json(expense);
+        // res.status(201).json({ success: true, data: expense });
     } catch (err) {
       console.error(err.message);
       res.status(500).send('Server Error');
@@ -52,11 +28,11 @@ const createExpense = async (req, res) => {
 // Get expense records for the user
 const getExpense = async (req, res) => {
   try {
-    const userId = req.user.id; // Get the user ID from the authenticated user
+    const userId = req.id; // Get the user ID from the authenticated user
 
-    const expense = await Expense.find({ user_id: userId });
+    const expense = await Expense.find({userId});
 
-    res.json(expense);
+    res.status(200).json({ success: true, data: expense });
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
@@ -66,22 +42,23 @@ const getExpense = async (req, res) => {
 // Update expense record
 const updateExpense = async (req, res) => {
   try {
-    const userId = req.id; // Get the user ID from the authenticated user
-    const { expenseName, expenseAmount } = req.body;
+    const incomeId = req.params.id; 
+    const { expenseName, expenseAmount, expenseCategory} = req.body;
 
     // Note: need integration with DB
-    // const expense = await Expense.findOne({ user_id: userId, expenseName: expenseName, expenseAmount:expenseAmount});
+    // const expense = await Expense.findOne({ _id: incomeId});
 
     // if (!expense) {
     //   return res.status(404).json({ msg: 'Expense record not found' });
     // }
 
-    // expense.expense_name = expenseName;
-    // expense.expense_amount = expenseAmount;
+    // expense.expenseName = expenseName;
+    // expense.expenseAmount = expenseAmount;
+    // expense.expenseCategory = expenseCategory;
 
     // await expense.save();
 
-    // res.json(expense);
+    // res.status(200).json({ success: true, data: expense });
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
@@ -91,11 +68,10 @@ const updateExpense = async (req, res) => {
 // Delete expense record
 const deleteExpense = async (req, res) => {
   try {
-    const userId = req.id; // Get the user ID from the authenticated user
-    const { expenseName, expenseAmount } = req.body;
+    const incomeId = req.params.id; 
 
-    // Note: need DB integration
-    // const expense = await Expense.findOne({ user_id: userId, expenseName: expenseName, expenseAmount:expenseAmount});
+    // Note: need integration with DB
+    // const expense = await Expense.findOne({ _id: incomeId});
 
     // if (!expense) {
     //   return res.status(404).json({ msg: 'Expense record not found' });
@@ -103,7 +79,7 @@ const deleteExpense = async (req, res) => {
 
     // await expense.remove();
 
-    // res.json({ msg: 'Expense record removed' });
+    // res.status(200).json({ success: true, data: 'Expense record removed' });
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
@@ -111,7 +87,6 @@ const deleteExpense = async (req, res) => {
 };
 
 module.exports = {
-    createMonthlyExpense,
     createExpense,
     getExpense,
     updateExpense,

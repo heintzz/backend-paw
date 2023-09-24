@@ -3,9 +3,6 @@ const router = express.Router();
 const verify = require('../middleware/verifyJWT');
 const expenseController = require('../controllers/expense.controller');
 
-// Create monthly expense record
-router.post('/monthly/', verify, expenseController.createExpense);
-
 // Create expense record
 router.post('/', verify, expenseController.createExpense);
 
