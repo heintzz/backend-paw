@@ -1,5 +1,6 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const User = require("../model/User");
 
 const handleUserSignup = async (req, res) => {
   const { email, password } = req.body;
@@ -33,57 +34,41 @@ const handleUserLogin = async (req, res) => {
       .status(400)
       .json({ success: false, message: "email and password are required" });
 
-  // const foundUser = await User.findOne({ email: email }).exec();
-  const foundUser = true;
+  const foundUser = await User.findOne({ email: email }).exec();
   if (!foundUser)
     return res
       .status(401)
       .json({ success: false, message: "user not found, please sign up" });
 
-  // const match = await bcrypt.compare(password, foundUser.password);
-  const match = true;
+  const match = await bcrypt.compare(password, foundUser.password);
   if (match) {
     const accessToken = jwt.sign(
-      // {
-      //   UserInfo: {
-      //     email: foundUser.email,
-      //     _id: foundUser._id,
-      //   },
-      // },
       {
+        _id: foundUser._id,
         email: email,
-        password: password,
       },
       process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: "10m" }
-    );
-    const refreshToken = jwt.sign(
-      // {
-      //   UserInfo: {
-      //     email: foundUser.email,
-      //     _id: foundUser._id,
-      //   },
-      // },
-      {
-        email: email,
-        password: password,
-      },
-      process.env.REFRESH_TOKEN_SECRET,
       { expiresIn: "1d" }
     );
 
-    // foundUser.refreshToken = refreshToken;
-    // await foundUser.save();
-    res.cookie("refreshToken", refreshToken, {
-      httpOnly: true,
-      sameSite: "None",
-      secure: true,
-      maxAge: 24 * 3600 * 1000,
+    res.cookie(
+      "userProfile",
+      { accessToken, username: foundUser.username },
+      {
+        httpOnly: true,
+        sameSite: "None",
+        secure: true,
+        maxAge: 24 * 3600 * 1000,
+      }
+    );
+    res.status(200).json({
+      success: true,
+      message: "user logged in",
+      data: { accessToken },
     });
-    res.json({ accessToken });
   } else {
     res
-      .sendStatus(401)
+      .status(401)
       .json({ success: false, message: "email or password are incorrect" });
   }
 };
