@@ -1,27 +1,31 @@
 const bcrypt = require("bcrypt");
+const User = require("../model/User");
 
 const handleUserSignup = async (req, res) => {
-  const { email, password } = req.body;
+  const { username, email, password } = req.body;
+  if (!email || !password || !username)
+    return res.status(400).json({ message: "please complete the form." });
 
-  // NOTE: waiting for database integration
-  const duplicate = true;
+  const duplicate = await User.findOne({ email: email }).exec();
   if (duplicate)
-    return res.json({
+    return res.status(409).json({
       success: false,
-      status: "409",
       message: "user already exist",
     });
 
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
-    // NOTE: waiting for database integration
-    const user = {
+    const user = await User.create({
+      username,
       email,
       password: hashedPassword,
-    };
-    res.json({ success: true, status: "200", message: "user created" });
+    });
+    res.status(200).json({
+      success: true,
+      message: `user ${user.email} created`,
+    });
   } catch (error) {
-    res.json({ success: false, status: "500", message: error.message });
+    res.status(500).json({ success: false, message: error.message });
   }
 };
 
