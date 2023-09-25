@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const incomeSchema = new mongoose.Schema({
   userId: {
@@ -17,6 +17,10 @@ const incomeSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  createdAt: {
+    type: Date,
+    default: new Date(),
+  },
 });
 
-module.exports = mongoose.model('Income', incomeSchema);
+module.exports = mongoose.model("Income", incomeSchema);
