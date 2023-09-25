@@ -9,7 +9,19 @@ const goalSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  goalDescription: {
+    type: String,
+    required: true,
+  },
   goalAmount: {
+    type: Number,
+    required: true,
+  },
+  savingsAmount:{
+    type: Number,
+    required: false,
+  },
+  savingsDuration:{
     type: Number,
     required: true,
   },
