@@ -14,7 +14,7 @@ app.use(express.json());
 
 app.use("/auth", require("./routes/auth"));
 app.use("/income", require("./routes/income.js"));
-// app.use("/expense", require("./routes/expense"));
+app.use("/expense", require("./routes/expense"));
 
 mongoose.connection.once("open", () => {
   app.listen(port, () => {
