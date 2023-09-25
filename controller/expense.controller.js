@@ -26,11 +26,13 @@ const createExpense = async (req, res) => {
 
 // Get expense records for the user
 const getExpense = async (req, res) => {
+  const filter = req.query;
+
   try {
     // Get the user ID from the authenticated user
     const userId = req.id;
 
-    const expense = await Expense.find({ userId });
+    const expense = await Expense.find({ userId, ...filter });
 
     res.status(200).json({ success: true, data: expense });
   } catch (err) {
