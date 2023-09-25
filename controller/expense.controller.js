@@ -28,11 +28,23 @@ const createExpense = async (req, res) => {
 const getExpense = async (req, res) => {
   const filter = req.query;
 
+  const { sort_by, order_by } = filter;
+
+  const sortOptions = {};
+  if (sort_by) {
+    sortOptions[sort_by] = order_by ? (order_by === "DESC" ? -1 : 1) : 0;
+  }
+
+  console.log(sortOptions);
+
+  delete filter.sort_by;
+  delete filter.order_by;
+
   try {
     // Get the user ID from the authenticated user
     const userId = req.id;
 
-    const expense = await Expense.find({ userId, ...filter });
+    const expense = await Expense.find({ userId, ...filter }).sort(sortOptions);
 
     res.status(200).json({ success: true, data: expense });
   } catch (err) {
