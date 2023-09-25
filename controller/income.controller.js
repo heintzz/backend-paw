@@ -45,16 +45,14 @@ const getIncome = async (req, res) => {
 const updateIncome = async (req, res) => {
   try {
     const incomeId = req.params.id;
-    const { incomeName, incomeAmount } = req.body;
 
-    const income = await Income.findOne({ _id: incomeId });
+    const income = await Income.findByIdAndUpdate({ _id: incomeId }, req.body, {
+      new: true,
+    });
 
     if (!income) {
       return res.status(404).json({ msg: "Income record not found" });
     }
-
-    income.incomeName = incomeName;
-    income.incomeAmount = incomeAmount;
 
     await income.save();
 
