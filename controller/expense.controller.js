@@ -27,7 +27,6 @@ const createExpense = async (req, res) => {
 // Get expense records for the user
 const getExpense = async (req, res) => {
   const filter = req.query;
-
   const { sort_by, order_by } = filter;
 
   const sortOptions = {};
