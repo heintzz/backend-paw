@@ -25,10 +25,21 @@ const createIncome = async (req, res) => {
 
 // Get income records for the user
 const getIncome = async (req, res) => {
+  const filter = req.query;
+  const { sort_by, order_by } = filter;
+
+  const sortOptions = {};
+  if (sort_by) {
+    sortOptions[sort_by] = order_by ? (order_by === "DESC" ? -1 : 1) : 0;
+  }
+
+  delete filter.sort_by;
+  delete filter.order_by;
+
   try {
     // Get the user ID from the authenticated user
     const userId = req.id;
-    const income = await Income.find({ userId });
+    const income = await Income.find({ userId }).sort;
 
     if (!income) {
       return res.status(404).json({ msg: "Income record not found" });
