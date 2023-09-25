@@ -13,8 +13,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 app.use("/auth", require("./routes/auth"));
+app.use("/income", require("./routes/income.js"));
 app.use("/expense", require("./routes/expense"));
-// app.use('/income', require('./routes/income'));
 
 mongoose.connection.once("open", () => {
   app.listen(port, () => {
