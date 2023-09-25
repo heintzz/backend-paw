@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const expenseSchema = new mongoose.Schema({
   userId: {
@@ -17,6 +17,10 @@ const expenseSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  expenseCategory: {
+    type: String,
+    required: true,
+  },
 });
 
-module.exports = mongoose.model('Expense', expenseSchema);
+module.exports = mongoose.model("Expense", expenseSchema);
