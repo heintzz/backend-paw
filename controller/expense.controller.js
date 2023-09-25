@@ -35,8 +35,6 @@ const getExpense = async (req, res) => {
     sortOptions[sort_by] = order_by ? (order_by === "DESC" ? -1 : 1) : 0;
   }
 
-  console.log(sortOptions);
-
   delete filter.sort_by;
   delete filter.order_by;
 
