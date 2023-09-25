@@ -10,7 +10,7 @@ router.post("/", verify, incomeController.createIncome);
 router.get("/", verify, incomeController.getIncome);
 
 // Update income record
-router.put("/:id", verify, incomeController.updateIncome);
+router.patch("/:id", verify, incomeController.updateIncome);
 
 // Delete income record
 router.delete("/:id", verify, incomeController.deleteIncome);
