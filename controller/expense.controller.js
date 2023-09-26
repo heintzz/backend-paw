@@ -1,4 +1,5 @@
 const Expense = require("../model/expense");
+const SummaryController = require("../controller/summary.controller")
 
 // Create expense record
 const createExpense = async (req, res) => {
@@ -16,6 +17,8 @@ const createExpense = async (req, res) => {
     });
 
     await expense.save();
+
+    await SummaryController.handleIncomeExpenseChange(userId);
 
     res.status(201).json({ success: true, data: expense });
   } catch (err) {
@@ -66,6 +69,8 @@ const updateExpense = async (req, res) => {
     }
 
     await expense.save();
+
+    await SummaryController.handleIncomeExpenseChange(userId);
 
     res.status(200).json({ success: true, data: expense });
   } catch (err) {
