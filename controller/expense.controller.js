@@ -30,15 +30,15 @@ const createExpense = async (req, res) => {
 // Get expense records for the user
 const getExpense = async (req, res) => {
   const filter = req.query;
-  const { sort_by, order_by } = filter;
+  const { sortBy, orderBy } = filter;
 
   const sortOptions = {};
-  if (sort_by) {
-    sortOptions[sort_by] = order_by ? (order_by === "DESC" ? -1 : 1) : 0;
+  if (sortBy) {
+    sortOptions[sortBy] = orderBy ? (orderBy === "desc" ? -1 : 1) : 0;
   }
 
-  delete filter.sort_by;
-  delete filter.order_by;
+  delete filter.sortBy;
+  delete filter.orderBy;
 
   try {
     // Get the user ID from the authenticated user
