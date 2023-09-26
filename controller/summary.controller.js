@@ -90,10 +90,6 @@ const getSummary = async (req, res) => {
   
     try {
       const summary = await Summary.findOne({userId});
-  
-      if (!summary) {
-        return res.status(404).json({ msg: 'Summary not found for this user' });
-      }
 
       res.status(200).json({ success: true, data: summary });
     } catch (err) {

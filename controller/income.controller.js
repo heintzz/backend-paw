@@ -45,10 +45,6 @@ const getIncome = async (req, res) => {
     const userId = req.id;
     const income = await Income.find({ userId, ...filter }).sort(sortOptions);
 
-    if (!income) {
-      return res.status(404).json({ msg: "Income record not found" });
-    }
-
     res.status(200).json({ success: true, data: income });
   } catch (err) {
     console.error(err.message);
