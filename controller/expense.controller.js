@@ -92,6 +92,8 @@ const deleteExpense = async (req, res) => {
 
     await expense.deleteOne();
 
+    await SummaryController.handleIncomeExpenseChange(userId);
+
     res.status(200).json({ success: true, data: "Expense record removed" });
   } catch (err) {
     console.error(err.message);

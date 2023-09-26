@@ -17,7 +17,7 @@ const createIncome = async (req, res) => {
 
     await income.save();
 
-    // Update summary with the updated expense
+    // Update summary with the updated income
     await SummaryController.handleIncomeExpenseChange(userId);
 
     res.status(201).json({ success: true, data: income });
@@ -71,7 +71,7 @@ const updateIncome = async (req, res) => {
 
     await income.save();
 
-    // Update summary with the updated expense
+    // Update summary with the updated income
     await SummaryController.handleIncomeExpenseChange(userId);
 
     res.status(200).json({ success: true, data: income });
@@ -93,6 +93,9 @@ const deleteIncome = async (req, res) => {
     }
 
     await income.deleteOne();
+
+    // Update summary with the updated income
+    await SummaryController.handleIncomeExpenseChange(userId);
 
     res.status(200).json({ success: true, data: "Income record removed" });
   } catch (err) {
