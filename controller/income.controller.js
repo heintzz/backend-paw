@@ -1,5 +1,5 @@
 const Income = require("../model/income");
-const SummaryController = require("../controller/summary.controller")
+const SummaryController = require("../controller/summary.controller");
 
 // Create income record
 const createIncome = async (req, res) => {
@@ -22,7 +22,6 @@ const createIncome = async (req, res) => {
 
     res.status(201).json({ success: true, data: income });
   } catch (err) {
-    console.error(err.message);
     res.status(500).send("Server Error");
   }
 };
@@ -47,7 +46,6 @@ const getIncome = async (req, res) => {
 
     res.status(200).json({ success: true, data: income });
   } catch (err) {
-    console.error(err.message);
     res.status(500).send("Server Error");
   }
 };
@@ -55,6 +53,7 @@ const getIncome = async (req, res) => {
 // Update income record
 const updateIncome = async (req, res) => {
   try {
+    const userId = req.id;
     const incomeId = req.params.id;
 
     const income = await Income.findByIdAndUpdate({ _id: incomeId }, req.body, {
@@ -72,7 +71,6 @@ const updateIncome = async (req, res) => {
 
     res.status(200).json({ success: true, data: income });
   } catch (err) {
-    console.error(err.message);
     res.status(500).send("Server Error");
   }
 };
@@ -80,6 +78,7 @@ const updateIncome = async (req, res) => {
 // Delete income record
 const deleteIncome = async (req, res) => {
   try {
+    const userId = req.id;
     const incomeId = req.params.id;
 
     const income = await Income.findOne({ _id: incomeId });
@@ -95,7 +94,6 @@ const deleteIncome = async (req, res) => {
 
     res.status(200).json({ success: true, data: "Income record removed" });
   } catch (err) {
-    console.error(err.message);
     res.status(500).send("Server Error");
   }
 };

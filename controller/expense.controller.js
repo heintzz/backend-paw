@@ -1,10 +1,11 @@
 const Expense = require("../model/expense");
-const SummaryController = require("../controller/summary.controller")
+const SummaryController = require("../controller/summary.controller");
 
 // Create expense record
 const createExpense = async (req, res) => {
   try {
     const userId = req.id;
+
     const { expenseName, expenseAmount, expenseCategory, expenseMonthly } =
       req.body;
 
@@ -22,7 +23,6 @@ const createExpense = async (req, res) => {
 
     res.status(201).json({ success: true, data: expense });
   } catch (err) {
-    console.error(err.message);
     res.status(500).send("Server Error");
   }
 };
@@ -48,7 +48,6 @@ const getExpense = async (req, res) => {
 
     res.status(200).json({ success: true, data: expense });
   } catch (err) {
-    console.error(err.message);
     res.status(500).send("Server Error");
   }
 };
@@ -56,6 +55,7 @@ const getExpense = async (req, res) => {
 // Update expense record
 const updateExpense = async (req, res) => {
   try {
+    const userId = req.id;
     const expenseId = req.params.id;
 
     const expense = await Expense.findOneAndUpdate(
@@ -74,7 +74,6 @@ const updateExpense = async (req, res) => {
 
     res.status(200).json({ success: true, data: expense });
   } catch (err) {
-    console.error(err.message);
     res.status(500).send("Server Error");
   }
 };
@@ -82,6 +81,7 @@ const updateExpense = async (req, res) => {
 // Delete expense record
 const deleteExpense = async (req, res) => {
   try {
+    const userId = req.id;
     const expenseId = req.params.id;
 
     const expense = await Expense.findOne({ _id: expenseId });
@@ -96,7 +96,6 @@ const deleteExpense = async (req, res) => {
 
     res.status(200).json({ success: true, data: "Expense record removed" });
   } catch (err) {
-    console.error(err.message);
     res.status(500).send("Server Error");
   }
 };
