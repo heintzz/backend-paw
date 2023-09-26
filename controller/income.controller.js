@@ -1,4 +1,5 @@
 const Income = require("../model/income");
+const SummaryController = require("../controller/summary.controller")
 
 // Create income record
 const createIncome = async (req, res) => {
@@ -15,6 +16,9 @@ const createIncome = async (req, res) => {
     });
 
     await income.save();
+
+    // Update summary with the updated expense
+    await SummaryController.handleIncomeExpenseChange(userId);
 
     res.status(201).json({ success: true, data: income });
   } catch (err) {
@@ -39,7 +43,7 @@ const getIncome = async (req, res) => {
   try {
     // Get the user ID from the authenticated user
     const userId = req.id;
-    const income = await Income.find({ userId }).sort;
+    const income = await Income.find({ userId, ...filter }).sort(sortOptions);
 
     if (!income) {
       return res.status(404).json({ msg: "Income record not found" });
@@ -67,6 +71,9 @@ const updateIncome = async (req, res) => {
 
     await income.save();
 
+    // Update summary with the updated expense
+    await SummaryController.handleIncomeExpenseChange(userId);
+
     res.status(200).json({ success: true, data: income });
   } catch (err) {
     console.error(err.message);
@@ -87,7 +94,7 @@ const deleteIncome = async (req, res) => {
 
     await income.deleteOne();
 
-    res.status(200).json({ success: true, data: "Expense record removed" });
+    res.status(200).json({ success: true, data: "Income record removed" });
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");

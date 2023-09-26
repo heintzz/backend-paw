@@ -13,6 +13,12 @@ const summarySchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+  expensesByCategory: [
+    {
+      category: String,
+      totalExpense: Number,
+    },
+  ],
 });
 
 module.exports = mongoose.model('Summary', summarySchema);
