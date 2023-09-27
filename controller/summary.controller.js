@@ -18,6 +18,12 @@ const updateSummary = async (userId) => {
       { $group: { _id: null, totalExpense: { $sum: "$expenseAmount" } } },
     ]);
 
+    // Calculate total saving for the user (including non-monthly expense)
+    const totalSaving = await Goal.aggregate([
+      { $match: { userId } },
+      { $group: { _id: null, totalSaving: { $sum: "$savingsAmount" } } },
+    ]);
+
     // Calculate expenses by category
     const expensesByCategory = await Expense.aggregate([
       { $match: { userId } },
@@ -29,6 +35,23 @@ const updateSummary = async (userId) => {
       },
     ]);
 
+    // Calculate income by category
+    const incomesByCategory = await Income.aggregate([
+      { $match: { userId } },
+      {
+        $group: {
+          _id: {
+            $cond: {
+              if: "$incomeMonthly",
+              then: 'Bulanan',
+              else: "Non Bulanan"
+            }
+          },
+          totalIncome: { $sum: "$incomeAmount" },
+        },
+      },
+    ]);
+
     // Update the summary record for the user
     const summary = await Summary.findOneAndUpdate(
       { userId },
@@ -36,9 +59,15 @@ const updateSummary = async (userId) => {
         totalIncome: totalIncome.length > 0 ? totalIncome[0].totalIncome : 0,
         totalExpense:
           totalExpense.length > 0 ? totalExpense[0].totalExpense : 0,
+        totalSaving:
+          totalSaving.length > 0 ? totalSaving[0].totalSaving : 0,
         expensesByCategory: expensesByCategory.map((item) => ({
           category: item._id,
           totalExpense: item.totalExpense,
+        })),
+        incomesByCategory: incomesByCategory.map((item) => ({
+          category: item._id,
+          totalIncome: item.totalIncome,
         })),
       },
       { upsert: true, new: true }

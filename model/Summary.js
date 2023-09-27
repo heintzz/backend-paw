@@ -13,7 +13,17 @@ const summarySchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+  totalSaving: {
+    type: Number,
+    default: 0,
+  },
   expensesByCategory: [
+    {
+      category: String,
+      totalExpense: Number,
+    },
+  ],
+  incomesByCategory: [
     {
       category: String,
       totalExpense: Number,

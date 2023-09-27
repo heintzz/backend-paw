@@ -9,10 +9,6 @@ const goalSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  goalDescription: {
-    type: String,
-    required: true,
-  },
   goalAmount: {
     type: Number,
     required: true,
@@ -20,14 +16,6 @@ const goalSchema = new mongoose.Schema({
   savingsAmount:{
     type: Number,
     required: false,
-  },
-  savingsDuration:{
-    type: Number,
-    required: true,
-  },
-  goalPercentage: {
-    type: Number,
-    required: true,
   },
 });
 
