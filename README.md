@@ -7,6 +7,10 @@ Anggota Kelompok:
 3. Bagus Rakadyanto Oktavianto Putra (21/474401/TK/52343)
 4. Valentinus Wastu Rosari (21/478174/TK/52692)
 
+## API Documentation
+Dokumentasi terkait proyek ini dapat diakses pada link berikut
+[Financial Tracker API Documentation](https://documenter.getpostman.com/view/24015692/2s9YJXakk8)
+
 ## How to Run
 1. Make a local copy of this project on your computer
     ```shell
