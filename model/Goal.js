@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const goalSchema = new mongoose.Schema({
   userId: {
@@ -13,10 +13,10 @@ const goalSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  savingsAmount:{
+  savingsAmount: {
     type: Number,
-    required: false,
+    default: 0,
   },
 });
 
-module.exports = mongoose.model('Goal', goalSchema);
+module.exports = mongoose.model("Goal", goalSchema);

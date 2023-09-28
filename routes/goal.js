@@ -1,34 +1,18 @@
-const mongoose = require('mongoose');
+const express = require("express");
+const router = express.Router();
+const verify = require("../middleware/verifyJWT");
+const goalController = require("../controller/goal.controller");
 
-const goalSchema = new mongoose.Schema({
-  userId: {
-    type: String,
-    required: true,
-  },
-  goalName: {
-    type: String,
-    required: true,
-  },
-  goalDescription: {
-    type: String,
-    required: true,
-  },
-  goalAmount: {
-    type: Number,
-    required: true,
-  },
-  savingsAmount:{
-    type: Number,
-    required: false,
-  },
-  savingsDuration:{
-    type: Number,
-    required: true,
-  },
-  goalPercentage: {
-    type: Number,
-    required: true,
-  },
-});
+// Create goal record
+router.post("/", verify, goalController.createGoal);
 
-module.exports = mongoose.model('Goal', goalSchema);
+// Get goal records for the user
+router.get("/", verify, goalController.getGoal);
+
+// Update goal record
+router.patch("/:id", verify, goalController.updateGoal);
+
+// Delete goal record
+router.delete("/:id", verify, goalController.deleteGoal);
+
+module.exports = router;
