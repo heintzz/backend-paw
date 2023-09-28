@@ -1,7 +1,7 @@
-const Summary = require("../model/summary");
-const Income = require("../model/income");
-const Expense = require("../model/expense");
-const cron = require("node-cron");
+const Summary = require("../model/Summary");
+const Income = require("../model/Income");
+const Expense = require("../model/Expense");
+const Goal = require("../model/Goal");
 
 // Function to calculate and update summary for a user
 const updateSummary = async (userId) => {
@@ -43,9 +43,9 @@ const updateSummary = async (userId) => {
           _id: {
             $cond: {
               if: "$incomeMonthly",
-              then: 'Bulanan',
-              else: "Non Bulanan"
-            }
+              then: "Bulanan",
+              else: "Non Bulanan",
+            },
           },
           totalIncome: { $sum: "$incomeAmount" },
         },
@@ -59,8 +59,7 @@ const updateSummary = async (userId) => {
         totalIncome: totalIncome.length > 0 ? totalIncome[0].totalIncome : 0,
         totalExpense:
           totalExpense.length > 0 ? totalExpense[0].totalExpense : 0,
-        totalSaving:
-          totalSaving.length > 0 ? totalSaving[0].totalSaving : 0,
+        totalSaving: totalSaving.length > 0 ? totalSaving[0].totalSaving : 0,
         expensesByCategory: expensesByCategory.map((item) => ({
           category: item._id,
           totalExpense: item.totalExpense,
@@ -75,7 +74,7 @@ const updateSummary = async (userId) => {
 
     return summary;
   } catch (err) {
-    res.status(500).send("Server Error");
+    console.log(err.message);
   }
 };
 
@@ -95,24 +94,6 @@ const handleIncomeExpenseChange = async (userId) => {
     res.status(500).send("Server Error");
   }
 };
-
-// Function to run at the beginning of each month
-const monthlySummaryUpdate = async () => {
-  try {
-    // Get all users (you may have a more specific way to get users)
-    const users = await User.find();
-
-    for (const user of users) {
-      // Calculate and update the summary for each user
-      await updateSummary(user._id);
-    }
-  } catch (err) {
-    res.status(500).send("Server Error");
-  }
-};
-
-// Schedule the monthly summary update using cron
-cron.schedule("0 0 1 * *", monthlySummaryUpdate);
 
 // Get summary for a user
 const getSummary = async (req, res) => {
