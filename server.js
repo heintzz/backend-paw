@@ -4,9 +4,11 @@ const app = express();
 const mongoose = require("mongoose");
 const morgan = require("morgan");
 const connectToDB = require("./config/dbConnection");
+const cronScheduler = require("./config/cronScheduler");
 const port = process.env.PORT || 3000;
 
 connectToDB();
+cronScheduler();
 
 app.use(morgan(":method :url :status - :response-time ms"));
 app.use(express.urlencoded({ extended: false }));
