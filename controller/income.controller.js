@@ -1,4 +1,4 @@
-const Income = require("../model/income");
+const Income = require("../model/Income");
 const SummaryController = require("../controller/summary.controller");
 
 // Create income record
