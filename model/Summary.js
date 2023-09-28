@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const summarySchema = new mongoose.Schema({
   userId: {
@@ -26,9 +26,9 @@ const summarySchema = new mongoose.Schema({
   incomesByCategory: [
     {
       category: String,
-      totalExpense: Number,
+      totalIncome: Number,
     },
   ],
 });
 
-module.exports = mongoose.model('Summary', summarySchema);
+module.exports = mongoose.model("Summary", summarySchema);

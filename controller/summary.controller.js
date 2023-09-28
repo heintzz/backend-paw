@@ -53,7 +53,7 @@ const updateSummary = async (userId) => {
     ]);
 
     // Update the summary record for the user
-    const summary = await Summary.findOneAndUpdate(
+    await Summary.findOneAndUpdate(
       { userId },
       {
         totalIncome: totalIncome.length > 0 ? totalIncome[0].totalIncome : 0,
@@ -71,10 +71,8 @@ const updateSummary = async (userId) => {
       },
       { upsert: true, new: true }
     );
-
-    return summary;
   } catch (err) {
-    console.log(err.message);
+    console.error(err.message);
   }
 };
 
@@ -91,7 +89,7 @@ const handleIncomeExpenseChange = async (userId) => {
     // Calculate and update the summary
     await updateSummary(userId);
   } catch (err) {
-    res.status(500).send("Server Error");
+    console.error(err.message);
   }
 };
 
@@ -104,7 +102,7 @@ const getSummary = async (req, res) => {
 
     res.status(200).json({ success: true, data: summary });
   } catch (err) {
-    res.status(500).send("Server Error");
+    console.error(err.message);
   }
 };
 
