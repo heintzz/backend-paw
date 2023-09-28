@@ -1,4 +1,4 @@
-const Expense = require("../model/expense");
+const Expense = require("../model/Expense");
 const SummaryController = require("../controller/summary.controller");
 
 // Create expense record
