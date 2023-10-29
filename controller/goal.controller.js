@@ -9,9 +9,7 @@ const getGoal = async (req, res) => {
 
     res.status(200).json({ success: true, data: goal });
   } catch (error) {
-    res
-      .status(error.status || 500)
-      .json({ success: false, message: error.message });
+    res.status(500).send("Server Error");
   }
 };
 
@@ -30,13 +28,9 @@ const createGoal = async (req, res) => {
 
     await SummaryController.handleIncomeExpenseChange(userId);
 
-    res
-      .status(200)
-      .json({ success: true, message: `goal ${goalName} created`, data: goal });
+    res.status(200).json({ success: true, message: `goal ${goalName} created`, data: goal });
   } catch (error) {
-    res
-      .status(error.status || 500)
-      .json({ success: false, message: error.message });
+    res.status(500).send("Server Error");
   }
 };
 
@@ -45,22 +39,15 @@ const updateGoal = async (req, res) => {
   try {
     const userId = req.id;
     const goalId = req.params.id;
-    const { goalName, goalAmount } = req.body;
 
     // find one and update savingsAmounts to prev value + new value
-    const goal = await Goal.findOneAndUpdate(
-      { _id: goalId },
-      { goalName, goalAmount },
-      {
-        new: true,
-        runValidators: true,
-      }
-    );
+    const goal = await Goal.findOneAndUpdate({ _id: goalId }, req.body, {
+      new: true,
+      runValidators: true,
+    });
 
     if (!goal) {
-      return res
-        .status(404)
-        .json({ success: false, message: "goal is not found" });
+      return res.status(404).json({ success: false, message: "goal is not found" });
     }
 
     if (req.body.savingsAmount >= 0) {
@@ -72,9 +59,7 @@ const updateGoal = async (req, res) => {
 
     res.status(200).json({ success: true, data: goal });
   } catch (error) {
-    res
-      .status(error.status || 500)
-      .json({ success: false, message: error.message });
+    res.status(500).send("Server Error");
   }
 };
 
@@ -86,20 +71,16 @@ const deleteGoal = async (req, res) => {
     const goal = await Goal.findOne({ _id: goalId });
 
     if (!goal) {
-      return res
-        .status(404)
-        .json({ success: false, message: "goal is not found" });
+      return res.status(404).json({ success: false, message: "pGoal is not found" });
     }
 
     await goal.deleteOne();
 
     await SummaryController.handleIncomeExpenseChange(userId);
 
-    res.status(200).json({ success: true, message: "goal deleted" });
+    res.status(200).json({ success: true, message: `Goal ${goal.goalName} deleted` });
   } catch (error) {
-    return res
-      .status(error.status || 500)
-      .json({ success: false, message: error.message });
+    res.status(500).send("Server Error");
   }
 };
 

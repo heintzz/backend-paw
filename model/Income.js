@@ -17,9 +17,17 @@ const incomeSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  autoAdd: {
+    type: Boolean,
+    required: false,
+  },
   createdAt: {
     type: Date,
     default: new Date(),
+  },
+  updatedAt: {
+    type: Date,
+    required: false,
   },
 });
 

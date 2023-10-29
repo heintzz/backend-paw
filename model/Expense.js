@@ -21,9 +21,17 @@ const expenseSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  autoAdd: {
+    type: Boolean,
+    required: false,
+  },
   createdAt: {
     type: Date,
     default: new Date(),
+  },
+  updatedAt: {
+    type: Date,
+    required: false,
   },
 });
 

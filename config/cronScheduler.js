@@ -6,34 +6,30 @@ const { updateSummary } = require("../controller/summary.controller");
 
 // update summary, income, and expense for each user monthly
 const monthlyJobs = async () => {
+  const currentYear = new Date().getFullYear();
+  const currentMonth = new Date().getMonth();
+  const startOfPreviousMonth = new Date(currentYear, currentMonth - 1, 1);
+  const endOfPreviousMonth = new Date(currentYear, currentMonth - 1, 1);
+
   try {
     // get all users (you may have a more specific way to get users)
     const users = await User.find();
     for (const user of users) {
-      // get expenses that happen at this month
       const incomes = await Income.find({
         userId: user._id,
         incomeMonthly: true,
         createdAt: {
-          $gte: new Date(
-            new Date().getFullYear(),
-            new Date().getMonth() - 1,
-            1
-          ),
-          $lt: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
+          $gte: startOfPreviousMonth,
+          $lt: endOfPreviousMonth,
         },
       });
-      // get expenses that happen at this month
+
       const expenses = await Expense.find({
         userId: user._id,
         expenseMonthly: true,
         createdAt: {
-          $gte: new Date(
-            new Date().getFullYear(),
-            new Date().getMonth() - 1,
-            1
-          ),
-          $lt: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
+          $gte: startOfPreviousMonth,
+          $lt: endOfPreviousMonth,
         },
       });
 
@@ -42,24 +38,20 @@ const monthlyJobs = async () => {
       }
 
       for (const income of incomes) {
+        const { createdAt, ...others } = income;
         const newIncome = await Income.create({
-          userId: income.userId,
-          incomeName: income.incomeName,
-          incomeAmount: income.incomeAmount,
-          incomeMonthly: income.incomeMonthly,
+          ...others,
+          autoAdd: true,
         });
-
         await newIncome.save();
       }
-      for (const expense of expenses) {
-        const newExpense = await Expense.create({
-          userId: expense.userId,
-          expenseName: expense.expenseName,
-          expenseAmount: expense.expenseAmount,
-          expenseCategory: expense.expenseCategory,
-          expenseMonthly: expense.expenseMonthly,
-        });
 
+      for (const expense of expenses) {
+        const { createdAt, ...others } = expense;
+        const newExpense = await Expense.create({
+          ...others,
+          autoAdd: true,
+        });
         await newExpense.save();
       }
 
