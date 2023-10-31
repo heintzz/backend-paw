@@ -25,6 +25,7 @@ app.use("/income", require("./routes/income.js"));
 app.use("/expense", require("./routes/expense"));
 app.use("/summary", require("./routes/summary"));
 app.use("/goal", require("./routes/goal"));
+app.use("/tracker", require("./routes/tracker"));
 
 mongoose.connection.once("open", () => {
   app.listen(port, () => {
