@@ -9,11 +9,11 @@ const monthlyJobs = async () => {
   const currentYear = new Date().getFullYear();
   const currentMonth = new Date().getMonth();
   const startOfPreviousMonth = new Date(currentYear, currentMonth - 1, 1);
-  const endOfPreviousMonth = new Date(currentYear, currentMonth - 1, 1);
+  const endOfPreviousMonth = new Date(currentYear, currentMonth + 1, 1);
 
   try {
-    // get all users (you may have a more specific way to get users)
     const users = await User.find();
+
     for (const user of users) {
       const incomes = await Income.find({
         userId: user._id,
@@ -38,18 +38,27 @@ const monthlyJobs = async () => {
       }
 
       for (const income of incomes) {
-        const { createdAt, ...others } = income;
+        const { userId, incomeName, incomeAmount, incomeMonthly } = income;
         const newIncome = await Income.create({
-          ...others,
+          userId,
+          incomeName,
+          incomeAmount,
+          incomeMonthly,
+          createdAt: new Date(),
           autoAdd: true,
         });
         await newIncome.save();
       }
 
       for (const expense of expenses) {
-        const { createdAt, ...others } = expense;
+        const { userId, expenseName, expenseAmount, expenseCategory, expenseMonthly } = expense;
         const newExpense = await Expense.create({
-          ...others,
+          userId,
+          expenseName,
+          expenseAmount,
+          expenseCategory,
+          expenseMonthly,
+          createdAt: new Date(),
           autoAdd: true,
         });
         await newExpense.save();
