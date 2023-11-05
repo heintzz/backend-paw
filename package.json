@@ -1,16 +1,17 @@
 {
   "name": "backend-paw",
   "version": "1.0.0",
-  "description": "backend for financial planning",
-  "main": "server.js",
+  "description": "backend for financial tracker web app",
+  "main": "index.js",
   "scripts": {
-    "dev": "nodemon server"
+    "start": "node index",
+    "dev": "nodemon index"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/heintzz/backend-paw.git"
   },
-  "author": "kelompok 2",
+  "author": "heintzz",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/heintzz/backend-paw/issues"
