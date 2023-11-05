@@ -2,7 +2,7 @@
   "name": "backend-paw",
   "version": "1.0.0",
   "description": "backend for financial planning",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "dev": "nodemon server"
   },
