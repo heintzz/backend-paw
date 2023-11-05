@@ -1,16 +1,13 @@
 require("dotenv").config();
 const express = require("express");
 const app = express();
-const mongoose = require("mongoose");
 const morgan = require("morgan");
 const connectToDB = require("./config/dbConnection");
 const cronScheduler = require("./config/cronScheduler");
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 4000;
 const cors = require("cors");
 const credentials = require("./middleware/credentials");
 const corsOptions = require("./config/corsOptions");
-
-connectToDB();
 
 app.use(morgan(":method :url :status - :response-time ms"));
 app.use(express.urlencoded({ extended: false }));
@@ -26,9 +23,9 @@ app.use("/summary", require("./routes/summary"));
 app.use("/goal", require("./routes/goal"));
 app.use("/tracker", require("./routes/tracker"));
 
-mongoose.connection.once("open", () => {
+connectToDB().then(() => {
   app.listen(port, () => {
-    console.log(`server running on port ${port}`);
+    console.log("listening for requests");
     cronScheduler();
   });
 });
