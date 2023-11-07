@@ -1,4 +1,4 @@
-const allowedOrigins = ["http://localhost:3000"];
+const allowedOrigins = ["http://localhost:3000", "https://fintrack-web.vercel.app"];
 
 const corsOptions = {
   origin: (origin, callback) => {
