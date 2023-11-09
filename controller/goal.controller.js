@@ -75,7 +75,7 @@ const deleteGoal = async (req, res) => {
     const goal = await Goal.findOne({ _id: goalId });
 
     if (!goal) {
-      return res.status(404).json({ success: false, message: "pGoal is not found" });
+      return res.status(404).json({ success: false, message: "Goal is not found" });
     }
 
     await goal.deleteOne();

@@ -1,5 +1,3 @@
-const mongoose = require("mongoose");
-
 const goalSchema = new mongoose.Schema({
   userId: {
     type: String,
@@ -11,6 +9,14 @@ const goalSchema = new mongoose.Schema({
   },
   goalAmount: {
     type: Number,
+    required: true,
+  },
+  goalStore: {
+    type: String,
+    required: true,
+  },
+  goalImage: {
+    type: String,
     required: true,
   },
   savingsAmount: {
