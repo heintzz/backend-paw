@@ -17,22 +17,26 @@ const getGoal = async (req, res) => {
 const createGoal = async (req, res) => {
   try {
     const userId = req.id;
-    const { goalName, goalAmount, savingsAmount } = req.body;
+    const { name, desc, price, store, image } = req.body.data;
 
     const goal = await Goal.create({
       userId,
-      goalName,
-      goalAmount,
-      savingsAmount,
+      goalName: name,
+      goalDescription: desc,
+      goalAmount: price,
+      goalStore: store,
+      goalImage: image,
     });
 
     await SummaryController.handleIncomeExpenseChange(userId);
 
-    res.status(200).json({ success: true, message: `goal ${goalName} created`, data: goal });
+    res.status(200).json({ success: true, message: `goal ${name} created`, data: goal });
   } catch (error) {
     res.status(500).send("Server Error");
   }
 };
+
+
 
 // Update goal record
 const updateGoal = async (req, res) => {
