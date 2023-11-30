@@ -28,7 +28,10 @@ const getIncome = async (req, res) => {
   const filter = req.query;
   const { sortBy, orderBy, ...otherFilters } = filter;
 
-  const sortOptions = sortBy && { [sortBy]: orderBy ? (orderBy === "desc" ? -1 : 1) : 0 };
+  let sortOptions = { createdAt: -1 };
+
+  // NOTE: waiting for change in FE
+  // sortOptions = sortBy && { [sortBy]: orderBy ? (orderBy === "desc" ? -1 : 1) : -1 };
 
   try {
     // Get the user ID from the authenticated user

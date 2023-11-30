@@ -11,7 +11,6 @@ const credentials = require("./middleware/credentials");
 const corsOptions = require("./config/corsOptions");
 
 connectToDB();
-cronScheduler();
 
 app.use(morgan(":method :url :status - :response-time ms"));
 app.use(express.urlencoded({ extended: false }));
@@ -30,5 +29,6 @@ app.use("/tracker", require("./routes/tracker"));
 mongoose.connection.once("open", () => {
   app.listen(port, () => {
     console.log(`server running on port ${port}`);
+    cronScheduler();
   });
 });

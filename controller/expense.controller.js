@@ -22,7 +22,10 @@ const getExpense = async (req, res) => {
   const filter = req.query;
   const { sortBy, orderBy, ...otherFilters } = filter;
 
-  const sortOptions = sortBy && { [sortBy]: orderBy ? (orderBy === "desc" ? -1 : 1) : 0 };
+  let sortOptions = { createdAt: -1 };
+
+  // NOTE: waiting for change in FE
+  // const sortOptions = sortBy && { [sortBy]: orderBy ? (orderBy === "desc" ? -1 : 1) : 0 };
 
   try {
     // Get the user ID from the authenticated user
