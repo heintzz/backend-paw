@@ -2,7 +2,7 @@ const User = require("../model/User");
 const Income = require("../model/Income");
 const Expense = require("../model/Expense");
 const cron = require("node-cron");
-const { updateSummary } = require("../controller/summary.controller");
+const { handleIncomeExpenseChange } = require("../controller/summary.controller");
 
 // update summary, income, and expense for each user monthly
 const monthlyJobs = async () => {
@@ -48,6 +48,7 @@ const monthlyJobs = async () => {
           autoAdd: true,
         });
         await newIncome.save();
+        await handleIncomeExpenseChange(userId);
       }
 
       for (const expense of expenses) {
@@ -62,10 +63,8 @@ const monthlyJobs = async () => {
           autoAdd: true,
         });
         await newExpense.save();
+        await handleIncomeExpenseChange(userId);
       }
-
-      // calculate and update summary for the user
-      await updateSummary(user._id);
     }
   } catch (error) {
     console.log(error.message);
