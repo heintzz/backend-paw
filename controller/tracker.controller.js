@@ -38,7 +38,10 @@ const trackHistory = async (req, res) => {
 
   if (month) {
     start = new Date(`${year}-${month}-01`);
-    end = new Date(`${year}-${Number(month) + 1}-01`);
+    end =
+      month === "12"
+        ? new Date(`${Number(year) + 1}-01-01`)
+        : new Date(`${year}-${Number(month) + 1}-01`);
   }
 
   try {

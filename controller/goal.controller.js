@@ -6,7 +6,6 @@ const getGoal = async (req, res) => {
   try {
     const userId = req.id;
     const goal = await Goal.find({ userId });
-
     res.status(200).json({ success: true, data: goal });
   } catch (error) {
     res.status(500).send("Server Error");
@@ -23,7 +22,7 @@ const createGoal = async (req, res) => {
       userId,
       goalName: name,
       goalDescription: desc,
-      goalAmount: price,
+      goalPrice: price,
       goalStore: store,
       goalImage: image,
     });
@@ -32,11 +31,10 @@ const createGoal = async (req, res) => {
 
     res.status(200).json({ success: true, message: `goal ${name} created`, data: goal });
   } catch (error) {
+    console.log(error);
     res.status(500).send("Server Error");
   }
 };
-
-
 
 // Update goal record
 const updateGoal = async (req, res) => {

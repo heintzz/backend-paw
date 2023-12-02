@@ -9,7 +9,7 @@ const goalSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  goalAmount: {
+  goalPrice: {
     type: Number,
     required: true,
   },
@@ -18,6 +18,10 @@ const goalSchema = new mongoose.Schema({
     required: true,
   },
   goalImage: {
+    type: String,
+    required: true,
+  },
+  goalDescription: {
     type: String,
     required: true,
   },
