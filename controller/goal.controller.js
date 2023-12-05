@@ -43,18 +43,28 @@ const updateGoal = async (req, res) => {
     const goalId = req.params.id;
 
     // find one and update savingsAmounts to prev value + new value
-    const goal = await Goal.findOneAndUpdate({ _id: goalId }, req.body, {
-      new: true,
-      runValidators: true,
-    });
+    const goal = await Goal.findOne({ _id: goalId });
 
     if (!goal) {
       return res.status(404).json({ success: false, message: "goal is not found" });
     }
 
-    if (req.body.savingsAmount >= 0) {
-      goal.savingsAmount += req.body.savingsAmount;
+    // if (req.body.savingsAmount >= 0) {
+    //   goal.savingsAmount += req.body.savingsAmount;
+    //   await goal.save();
+    // }
+
+    // if savingsAmount is passed in, update it to the new value
+    if (req.body.savingsAmount) {
+      goal.savingsAmount = req.body.savingsAmount;
       await goal.save();
+    } else {
+      const updatedData = {
+        ...req.body,
+        updatedAt: new Date(),
+      };
+
+      await goal.updateOne(updatedData);
     }
 
     await SummaryController.handleIncomeExpenseChange(userId);

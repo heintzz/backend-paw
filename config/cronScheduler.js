@@ -44,7 +44,7 @@ const monthlyJobs = async () => {
           incomeName,
           incomeAmount,
           incomeMonthly,
-          createdAt: new Date(),
+          createdAt: new Date(currentYear, currentMonth, 1, 8),
           autoAdd: true,
         });
         await newIncome.save();
@@ -58,7 +58,7 @@ const monthlyJobs = async () => {
           expenseAmount,
           expenseCategory,
           expenseMonthly,
-          createdAt: new Date(),
+          createdAt: new Date(currentYear, currentMonth, 1, 8),
           autoAdd: true,
         });
         await newExpense.save();
