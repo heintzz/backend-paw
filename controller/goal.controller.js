@@ -49,14 +49,15 @@ const updateGoal = async (req, res) => {
       return res.status(404).json({ success: false, message: "goal is not found" });
     }
 
-    // if (req.body.savingsAmount >= 0) {
-    //   goal.savingsAmount += req.body.savingsAmount;
-    //   await goal.save();
-    // }
-
-    // if savingsAmount is passed in, update it to the new value
     if (req.body.savingsAmount) {
-      goal.savingsAmount = req.body.savingsAmount;
+      const difference = goal.goalPrice - goal.savingsAmount;
+      const EXCEED_LIMIT = goal.savingsAmount + req.body.savingsAmount > goal.goalPrice;
+      if (EXCEED_LIMIT) {
+        return res
+          .status(409)
+          .json({ success: false, message: `You only need to save ${difference}` });
+      }
+      goal.savingsAmount += req.body.savingsAmount;
       await goal.save();
     } else {
       const updatedData = {
